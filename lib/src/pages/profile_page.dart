@@ -7,16 +7,15 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticketa/src/pages/checkout_page.dart';
 import 'package:ticketa/src/pages/landing_page.dart';
-import 'package:ticketa/src/pages/profile_page.dart';
 
-class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<UserHomePage> createState() => _UserHomePage();
+  State<ProfilePage> createState() => _ProfilePage();
 }
 
-class _UserHomePage extends State<UserHomePage> {
+class _ProfilePage extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +70,9 @@ class _UserHomePage extends State<UserHomePage> {
                       SizedBox(
                         height: double.maxFinite,
                         child: FilledButton(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ProfilePage(  )),
-                            ),
+                            onPressed: () => {
+                                  /*navigator to user profile page*/
+                                },
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.black),
@@ -171,8 +169,8 @@ class _UserHomePage extends State<UserHomePage> {
         width: max(MediaQuery.of(context).size.width, 600),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
             stops: [
               0.1,
               0.3,
@@ -188,55 +186,101 @@ class _UserHomePage extends State<UserHomePage> {
           ),
         ),
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: GridView.count(
-          crossAxisCount: MediaQuery.of(context).size.width > 1300
-              ? 4
-              : MediaQuery.of(context).size.width > 1000
-                  ? 3
-                  : MediaQuery.of(context).size.width > 700
-                      ? 2
-                      : 1,
-          children: List.generate(20, (index) {
-            return TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CheckoutPage()),
-              ),
-              child: Container(
-                height: 320,
-                width: 260,
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16),
-                    )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                        height: 180,
-                        width: 240,
-                        child:
-                            Image(image: AssetImage("assets/logos/logo1.png"))),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Event x y z',
-                      style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                              fontSize: 30, color: Colors.black)),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "Price: $index leu",
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(fontSize: 20)),
-                    )
-                  ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 500,
+              width: 150,
+              decoration: const BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
                 ),
               ),
-            );
-          }),
+            ),
+            Container(
+              height: 500,
+              width: 400,
+              padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    "My Profile",
+                    style: GoogleFonts.quicksand(
+                        textStyle: const TextStyle(fontSize: 20)),
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    width: 300,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Username",
+                          icon: Icon(Icons.person, size: 20)),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    width: 300,
+                    child: TextField(
+                      obscureText: true,
+
+                      decoration: InputDecoration(
+                          hintText: "Old Password",
+                          icon: Icon(Icons.lock, size: 20)),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    width: 300,
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: "New Password",
+                          icon: Icon(Icons.lock, size: 20)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: FilledButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ))),
+                        child: Text("Confirm Changes",
+                            style: GoogleFonts.roboto(
+                                textStyle: const TextStyle(fontSize: 16)))),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.keyboard_backspace,
+                      size: 60,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
