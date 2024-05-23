@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticketa/src/pages/checkout_page.dart';
-import 'package:ticketa/src/pages/landing_page.dart';
+import 'package:ticketa/src/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,7 +14,7 @@ class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePage();
 }
-
+//TODO Create page to check own tickets and add this page as a submenu
 class _ProfilePage extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {

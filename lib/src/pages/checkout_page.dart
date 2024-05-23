@@ -1,15 +1,19 @@
+import 'dart:html';
 import 'dart:math';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ticketa/src/pages/landing_page.dart';
-import 'package:ticketa/src/pages/register_page.dart';
+import 'package:ticketa/src/models/event_model.dart';
+import 'package:ticketa/src/models/ticket_model.dart';
+
 import 'package:ticketa/src/pages/user_home_page.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({super.key});
+  final Event event;
+
+  const CheckoutPage({super.key, required this.event});
 
   @override
   State<CheckoutPage> createState() => _CheckoutPage();
@@ -27,6 +31,26 @@ String randomAssetImg() {
 }
 
 class _CheckoutPage extends State<CheckoutPage> {
+  double ticketPrice = 0;
+  bool priceLoaded = false;
+
+  void getPrice() async {
+    priceLoaded = false;
+
+    Ticket? ticket = await Ticket.getByEventId(widget.event.getId()!);
+    setState(() {
+      priceLoaded = true;
+      ticketPrice = ticket!.getPrice();
+    });
+  }
+
+  @override
+  void initState() {
+    getPrice();
+
+    super.initState();
+  }
+
   String imagePath = randomAssetImg();
 
   @override
@@ -93,21 +117,30 @@ class _CheckoutPage extends State<CheckoutPage> {
                       height: 300,
                       width: 250,
                       decoration: BoxDecoration(
-                        borderRadius:  BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8),
                         color: Colors.white,
                       ),
-                      padding: EdgeInsets.fromLTRB(5, 20, 5, 10),
-                      
-                      child: const Column(
+                      padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
+                      child: Column(
                         children: [
-                          Image(
-                            image: AssetImage("assets/logos/logo1.png"),
-                            fit: BoxFit.contain,
+                          FadeInImage(
+                              placeholder:
+                                  const AssetImage("assets/logos/logo1.png"),
+                              image: NetworkImage(widget.event.getPhoto())),
+                          const SizedBox(
+                            height: 40,
                           ),
-                          SizedBox(height: 40,),
-                          Text("Party Ian AMuly",style: TextStyle(color: Colors.black,fontSize: 20),),
-                          SizedBox(height: 10,),
-                          Text("03.06.2022 form ",style: TextStyle(color: Colors.black,fontSize: 20))
+                          Text(
+                            widget.event.getName(),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 20),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(widget.event.getDate().toString(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 20))
                         ],
                       ),
                     ),
@@ -123,7 +156,7 @@ class _CheckoutPage extends State<CheckoutPage> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+                      padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
                       child: Column(
                         children: [
                           Text(
@@ -132,8 +165,16 @@ class _CheckoutPage extends State<CheckoutPage> {
                                 textStyle: const TextStyle(fontSize: 30)),
                           ),
                           const SizedBox(height: 20),
+                          SizedBox(
+                            height: 160,
+                            child: Text(
+                              widget.event.getDescription(),
+                              style: GoogleFonts.roboto(
+                                  textStyle: const TextStyle(fontSize: 20)),
+                            ),
+                          ),
                           Text(
-                            "Price : 10 lei",
+                            priceLoaded ? "Price :$ticketPrice lei" : "",
                             style: GoogleFonts.roboto(
                                 textStyle: const TextStyle(fontSize: 20)),
                           ),
@@ -158,7 +199,10 @@ class _CheckoutPage extends State<CheckoutPage> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.paypal,size: 20,),
+                                    const Icon(
+                                      Icons.paypal,
+                                      size: 20,
+                                    ),
                                     Text("Purchase",
                                         style: GoogleFonts.roboto(
                                             textStyle:
@@ -167,16 +211,17 @@ class _CheckoutPage extends State<CheckoutPage> {
                                 )),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           IconButton(
-                              onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserHomePage()),
-                                  ),
-                              icon: const Icon(Icons.keyboard_backspace,size: 60 ,),)
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.keyboard_backspace,
+                              size: 60,
+                            ),
+                          )
                         ],
                       ),
                     ),

@@ -1,17 +1,23 @@
+import 'dart:js_util';
 import 'dart:math';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ticketa/src/authentication/auth_service.dart';
+import 'package:ticketa/src/database/backend_service.dart';
+import 'package:ticketa/src/models/user_model.dart';
 import 'package:ticketa/src/pages/register_page.dart';
 import 'package:ticketa/src/pages/user_home_page.dart';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({super.key});
+import '../models/ticket_model.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<LandingPage> createState() => _LandingPage();
+  State<LoginPage> createState() => _LoginPage();
 }
 
 String randomAssetImg() {
@@ -25,8 +31,10 @@ String randomAssetImg() {
   return path;
 }
 
-class _LandingPage extends State<LandingPage> {
+class _LoginPage extends State<LoginPage> {
   String imagePath = randomAssetImg();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +54,8 @@ class _LandingPage extends State<LandingPage> {
           )),
       body: SingleChildScrollView(
         child: Container(
-          height: max(MediaQuery
-              .of(context)
-              .size
-              .height - 120, 500),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          height: max(MediaQuery.of(context).size.height - 120, 500),
+          width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -70,7 +72,8 @@ class _LandingPage extends State<LandingPage> {
                 Colors.blue,
                 Colors.orange,
               ],
-            ),),
+            ),
+          ),
           padding: const EdgeInsets.all(20),
           child: Center(
             child: SingleChildScrollView(
@@ -88,17 +91,15 @@ class _LandingPage extends State<LandingPage> {
                           scale: 5,
                           fit: BoxFit.none),
                       borderRadius: const BorderRadius.only(
-
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20),
-
-
                       ),
                       color: Colors.white,
                     ),
                     child: const Image(
                       image: AssetImage("assets/logos/circularlogo.png"),
-                      fit: BoxFit.contain,),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   Container(
                     height: 500,
@@ -108,64 +109,59 @@ class _LandingPage extends State<LandingPage> {
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         bottomLeft: Radius.circular(20),
-
-
                       ),
                     ),
-
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
                       child: Column(
                         children: [
-                           Text(
+                          Text(
                             "Welcome to Ticketa",
-                            style: GoogleFonts.quicksand(textStyle:  const TextStyle(fontSize: 50)),
+                            style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(fontSize: 50)),
                           ),
-                          const SizedBox(
-                              height: 20
+                          const SizedBox(height: 20),
+                          TextField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                                hintText: "Email", icon: Icon(Icons.person)),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                                hintText: "Username", icon: Icon(Icons.person)),
-                          ),
-                          const TextField(
+                          TextField(
+                            controller: _passwordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 hintText: "Password", icon: Icon(Icons.lock)),
                           ),
-
-                          const SizedBox(
-                              height: 20
-                          ),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: double.maxFinite,
                             child: FilledButton(
-                                onPressed: () =>
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (
-                                          context) => const UserHomePage()),
-                                    ),
+                                onPressed: () async {
+                                  AuthenticationService.login(
+                                      _emailController.text, _passwordController.text, this.context);
+                                },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Colors.black),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.black),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                        )
-                                    )
-                                ),
-                                child: Text("Login",style: GoogleFonts.roboto(textStyle:const  TextStyle(fontSize: 16)))),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ))),
+                                child: Text("Login",
+                                    style: GoogleFonts.roboto(
+                                        textStyle:
+                                            const TextStyle(fontSize: 16)))),
                           ),
                           const SizedBox(
                             height: 30,
                           ),
-
                           TextButton(
-                              onPressed: () =>
-                                  Navigator.push(
+                              onPressed: () => Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (
-                                        context) => const RegisterPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterPage()),
                                   ),
                               child: const Text("Not authenticated? Register"))
                         ],

@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ticketa/src/pages/landing_page.dart';
+import 'package:ticketa/src/authentication/auth_service.dart';
+import 'package:ticketa/src/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -27,6 +28,11 @@ String randomAssetImg() {
 
 class _RegisterPage extends State<RegisterPage> {
   String imagePath = randomAssetImg();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  final _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,44 +103,70 @@ class _RegisterPage extends State<RegisterPage> {
                         bottomRight: Radius.circular(20),
                       ),
                     ),
-                    child:  Padding(
+                    child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
                       child: Column(
                         children: [
-                           Text(
+                          Text(
                             "Register",
-                            style: GoogleFonts.quicksand(textStyle:  const TextStyle(fontSize: 50)),
+                            style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(fontSize: 50)),
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
-                            decoration: InputDecoration(
-                                hintText: "Email", icon: Icon(Icons.alternate_email_sharp)),
+                          TextField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                                hintText: "Email",
+                                icon: Icon(Icons.alternate_email_sharp)),
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _usernameController,
+                            decoration: const InputDecoration(
                                 hintText: "Username", icon: Icon(Icons.person)),
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
+                          TextField(
+                            controller: _passwordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 hintText: "Password", icon: Icon(Icons.lock)),
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
+                           TextField(
                             obscureText: true,
-                            decoration: InputDecoration(
-                                hintText: "Confirm Password", icon: Icon(Icons.lock)),
+                            controller: _confirmPasswordController,
+                            decoration: const InputDecoration(
+                                hintText: "Confirm Password",
+                                icon: Icon(Icons.lock)),
                           ),
                           const SizedBox(
                             height: 30,
                           ),
+                         FilledButton(
+                              onPressed: () async {
+                                AuthenticationService.register(
+                                  //TODO FINISH REGISTER
+                                    _emailController.text, _passwordController.text,_usernameController.text, this.context);
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ))),
+                              child: Text("Login",
+                                  style: GoogleFonts.roboto(
+                                      textStyle:
+                                      const TextStyle(fontSize: 16)))),
                           TextButton(
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const LandingPage()),
-                                ),
+                              onPressed: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const LoginPage()),
+                                  ),
                               child: const Text("Already registered? Log in"))
                         ],
                       ),
