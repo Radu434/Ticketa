@@ -79,15 +79,6 @@ class User {
     return null;
   }
 
-  static Future<bool> register(
-      String email, String password, String username) async {
-    if (email.length > 6 && password.length > 6 && username.length > 3) {
-      User createdUser = User(null, email, username, password);
-      return BackendService.add('user', createdUser.toJson().toString());
-    }
-    return false;
-  }
-
   Map<String, dynamic> toJson() => {
         "id": _id,
         "email": _email,
@@ -95,11 +86,12 @@ class User {
         "password": _password
       };
 
-  static Future<void> create(User user) async {
+  static Future<int> create(User user) async {
     try {
-      await BackendService.add('user', jsonEncode(user.toJson()));
+      return await BackendService.add('user', user.toJson());
     } catch (e) {
       print(e.toString());
+      return -1;
     }
   }
 

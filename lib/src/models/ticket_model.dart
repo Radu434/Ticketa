@@ -103,7 +103,7 @@ class Ticket {
   static Future<void> create(Ticket ticket, int userId) async {
     try {
       await BackendService.add(
-          'ticket', jsonEncode(ticket.toJsonWithUserId(userId)));
+          'ticket', ticket.toJsonWithUserId(userId));
     } catch (e) {
       print(e.toString());
     }

@@ -22,14 +22,12 @@ class AuthenticationService {
 
   static Future<bool> register(
       String email, String password, String username, var context) async {
-    bool result = await User.register(email, password, username);
+    int result = await User.create(User(null, email, username, password));
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (result == true) {
+    if (result != -1) {
       prefs.setBool("loggedin", true);
       prefs.setString("userEmail", email);
-      User? usr = await User.findByEmail(email);
-      prefs.setInt("userId", usr!.getId() ?? -1);
-      print(usr!.getId() ?? -1);
+      prefs.setInt("userId", result);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const UserHomePage()),

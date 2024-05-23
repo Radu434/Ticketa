@@ -76,7 +76,7 @@ class Event {
 
   static Future<void> create(Event event) async {
     try {
-      await BackendService.add('event', jsonEncode(event.toJson()));
+      await BackendService.add('event', event.toJson());
     } catch (e) {
       print(e.toString());
     }

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ticketa',
-      home: loggedIn ? const UserHomePage() : const LoginPage(),
+      home: loggedIn ? const RegisterPage() : const LoginPage(),
     );
   }
 }

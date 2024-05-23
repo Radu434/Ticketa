@@ -192,7 +192,7 @@ class _UserHomePage extends State<UserHomePage> {
             )),
         body: (!isLoading)
             ? Container(
-                height: max(MediaQuery.of(context).size.height - 120, 600),
+                height: max(MediaQuery.of(context).size.height - 119, 600),
                 width: max(MediaQuery.of(context).size.width, 600),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(

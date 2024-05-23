@@ -20,18 +20,20 @@ class BackendService {
     return responseList;
   }
 
-  static Future<bool> add(String location, String dataBody) async {
+  static Future<int> add(
+      String location, Map<String, dynamic>? dataBody) async {
+    var response = -1;
     var client = Client();
     try {
       var response = await client.post(
           Uri.parse('http://localhost/ticketa_backend/$location'),
-          body: dataBody);
+          body: jsonEncode(dataBody));
+      client.close();
+    return jsonDecode(response.body)["id"]??-1;
     } catch (e) {
       print(e);
-      return false;
+      return -1;
     }
-    client.close();
-    return true;
   }
 
   static Future<Map<String, dynamic>?> findByParameter(

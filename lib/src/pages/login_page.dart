@@ -112,7 +112,7 @@ class _LoginPage extends State<LoginPage> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Column(
                         children: [
                           Text(
@@ -129,10 +129,11 @@ class _LoginPage extends State<LoginPage> {
                           TextField(
                             controller: _passwordController,
                             obscureText: true,
-                            decoration: const InputDecoration(
+                            decoration:  const InputDecoration(
                                 hintText: "Password", icon: Icon(Icons.lock)),
+
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 40),
                           SizedBox(
                             width: double.maxFinite,
                             child: FilledButton(
@@ -157,7 +158,7 @@ class _LoginPage extends State<LoginPage> {
                             height: 30,
                           ),
                           TextButton(
-                              onPressed: () => Navigator.push(
+                              onPressed: () => Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

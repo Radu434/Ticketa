@@ -31,8 +31,46 @@ class _RegisterPage extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
   final _usernameController = TextEditingController();
+
+  bool validateEmail(String input) {
+    if (input.isEmpty) {
+      return true;
+    }
+    RegExp exp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (input.length > 6 && exp.hasMatch(input)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool validateUsername(String input) {
+    if (input.isEmpty) {
+      return true;
+    }
+    if (input.length > 6) {
+      return true;
+    }
+    return false;
+  }
+
+  bool validatePassword(String input) {
+    if (input.isEmpty) {
+      return true;
+    }
+    RegExp exp = RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$');
+    if (input.length > 6 && exp.hasMatch(input)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool validateConfirmPassword(String password, String confirmedPassword) {
+    if (password == confirmedPassword) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,68 +142,106 @@ class _RegisterPage extends State<RegisterPage> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Register",
+                            "Join Ticketa",
                             style: GoogleFonts.quicksand(
                                 textStyle: const TextStyle(fontSize: 50)),
                           ),
-                          const SizedBox(height: 20),
                           TextField(
                             controller: _emailController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                                errorText: validateEmail(_emailController.text)
+                                    ? null
+                                    : "Invalid Email",
                                 hintText: "Email",
-                                icon: Icon(Icons.alternate_email_sharp)),
+                                icon: const Icon(Icons.alternate_email_sharp)),
+                            onChanged: (_) => setState(() {}),
                           ),
-                          const SizedBox(height: 20),
                           TextField(
                             controller: _usernameController,
-                            decoration: const InputDecoration(
-                                hintText: "Username", icon: Icon(Icons.person)),
+                            decoration: InputDecoration(
+                                errorText:
+                                    validateUsername(_usernameController.text)
+                                        ? null
+                                        : "Username is too short",
+                                hintText: "Username",
+                                icon: const Icon(Icons.person)),
+                            onChanged: (_) => setState(() {}),
                           ),
-                          const SizedBox(height: 20),
                           TextField(
                             controller: _passwordController,
                             obscureText: true,
-                            decoration: const InputDecoration(
-                                hintText: "Password", icon: Icon(Icons.lock)),
+                            decoration: InputDecoration(
+                                errorText: validatePassword(
+                                        _passwordController.text)
+                                    ? null
+                                    : "Must include a digit and an uppercase",
+                                hintText: "Password",
+                                icon: const Icon(Icons.lock)),
+                            onChanged: (_) => setState(() {}),
                           ),
-                          const SizedBox(height: 20),
-                           TextField(
+                          TextField(
                             obscureText: true,
                             controller: _confirmPasswordController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                                errorText: validateConfirmPassword(
+                                        _passwordController.text,
+                                        _confirmPasswordController.text)
+                                    ? null
+                                    : "Passwords do not match",
                                 hintText: "Confirm Password",
-                                icon: Icon(Icons.lock)),
+                                icon: const Icon(Icons.lock)),
+                            onChanged: (_) => setState(() {}),
                           ),
-                          const SizedBox(
-                            height: 30,
+                          SizedBox(
+                            width: double.maxFinite,
+                            child: FilledButton(
+                                onPressed: () async {
+                                  if (validatePassword(
+                                          _passwordController.text) &&
+                                      validateUsername(
+                                          _usernameController.text) &&
+                                      validateEmail(_emailController.text) &&
+                                      validateConfirmPassword(
+                                          _passwordController.text,
+                                          _confirmPasswordController.text)) {
+                                    AuthenticationService.register(
+                                        _emailController.text,
+                                        _passwordController.text,
+                                        _usernameController.text,
+                                        this.context);
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => const AlertDialog(
+                                              content:
+                                                  Text("Invalid Credentials"),
+                                            ));
+                                  }
+                                },
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.black),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ))),
+                                child: Text("Register",
+                                    style: GoogleFonts.roboto(
+                                        textStyle:
+                                            const TextStyle(fontSize: 16)))),
                           ),
-                         FilledButton(
-                              onPressed: () async {
-                                AuthenticationService.register(
-                                  //TODO FINISH REGISTER
-                                    _emailController.text, _passwordController.text,_usernameController.text, this.context);
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                      ))),
-                              child: Text("Login",
-                                  style: GoogleFonts.roboto(
-                                      textStyle:
-                                      const TextStyle(fontSize: 16)))),
                           TextButton(
                               onPressed: () => Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const LoginPage()),
+                                        builder: (context) =>
+                                            const LoginPage()),
                                   ),
                               child: const Text("Already registered? Log in"))
                         ],
