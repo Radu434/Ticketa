@@ -27,12 +27,12 @@ class User {
   }
 
   static Future<User?> findById(int id) async {
-    Map<String, dynamic>? mappedResponse =
+    List<dynamic>? mappedResponse =
         await BackendService.findByParameter('user', 'id=$id');
 
-    if (mappedResponse != null) {
+    if (mappedResponse!.firstOrNull != null) {
       try {
-        dynamic firstElement = mappedResponse;
+        dynamic firstElement = mappedResponse.first;
         User event = User(int.parse(firstElement['id']), firstElement['email'],
             firstElement['username'], firstElement['password']);
 
@@ -45,12 +45,12 @@ class User {
   }
 
   static Future<User?> findByEmail(String email) async {
-    Map<String, dynamic>? responseList =
+    List<dynamic>?  responseList =
         await BackendService.findByParameter('user', 'email=$email');
 
-    if (responseList != null) {
+    if (responseList!.firstOrNull != null) {
       try {
-        dynamic firstElement = responseList;
+        dynamic firstElement = responseList.first;
         User event = User(int.parse(firstElement['id']), firstElement['email'],
             firstElement['username'], firstElement['password']);
 
@@ -63,13 +63,13 @@ class User {
   }
 
   static Future<User?> login(String email, String password) async {
-    Map<String, dynamic>? responseList = await BackendService.findByParameter(
+    List<dynamic>?  responseList = await BackendService.findByParameter(
         'user', 'login=true&password=$password&email=$email');
 
-    if (responseList != null) {
+    if (responseList!.firstOrNull != null) {
       try {
-        User user = User(responseList['id'], responseList['email'],
-            responseList['username'], responseList['password']);
+        User user = User(responseList.first['id'], responseList.first['email'],
+            responseList.first['username'], responseList.first['password']);
         print(user.toJson());
         return user;
       } catch (e) {

@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -22,21 +21,20 @@ class BackendService {
 
   static Future<int> add(
       String location, Map<String, dynamic>? dataBody) async {
-    var response = -1;
     var client = Client();
     try {
       var response = await client.post(
           Uri.parse('http://localhost/ticketa_backend/$location'),
           body: jsonEncode(dataBody));
       client.close();
-    return jsonDecode(response.body)["id"]??-1;
+      return jsonDecode(response.body)["id"] ?? -1;
     } catch (e) {
       print(e);
       return -1;
     }
   }
 
-  static Future<Map<String, dynamic>?> findByParameter(
+  static Future<List<dynamic>?> findByParameter(
       String resource, String params) async {
     var client = Client();
     try {
@@ -45,20 +43,20 @@ class BackendService {
       client.close();
 
       if (response.statusCode == 200 && response.body.length > 2) {
-        List<dynamic> data = jsonDecode(response.body);
-        return data.first;
+        return jsonDecode(response.body);
       }
     } catch (e) {
       print(e);
       return null;
     }
+    return null;
   }
 
   static Future<bool> updateByParameter(
       String resource, String params, String dataBody) async {
     var client = Client();
     try {
-      Response response = await client.patch(
+      await client.patch(
           Uri.parse('http://localhost/ticketa_backend/$resource?$params'),
           body: dataBody);
       client.close();

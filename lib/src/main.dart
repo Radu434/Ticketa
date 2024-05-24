@@ -8,18 +8,15 @@ bool loggedIn = false;
 
 Future<void> checkIfLoggedIn() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool("loggedin") ==true) {
+  if (prefs.getBool("loggedin") == true) {
     loggedIn = true;
-  }
-  else{
+  } else {
     loggedIn = false;
-
   }
 }
 
 void main() {
   checkIfLoggedIn();
-
   runApp(MyApp());
 }
 
@@ -31,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ticketa',
-      home: loggedIn ? const RegisterPage() : const LoginPage(),
+      home: loggedIn ? const UserHomePage() : const LoginPage(),
     );
   }
 }

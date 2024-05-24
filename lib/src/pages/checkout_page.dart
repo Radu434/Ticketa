@@ -31,24 +31,16 @@ String randomAssetImg() {
 }
 
 class _CheckoutPage extends State<CheckoutPage> {
-  double ticketPrice = 0;
-  bool priceLoaded = false;
+  int? selectedPrice;
 
-  void getPrice() async {
-    priceLoaded = false;
-
-    Ticket? ticket = await Ticket.getByEventId(widget.event.getId()!);
-    setState(() {
-      priceLoaded = true;
-      ticketPrice = ticket!.getPrice();
-    });
+  Future<List<Ticket>?> getPriceT() async {
+   return await Ticket.getAllByEventId(widget.event.getId()!);
   }
 
   @override
   void initState() {
-    getPrice();
-
     super.initState();
+    getPriceT();
   }
 
   String imagePath = randomAssetImg();
@@ -173,10 +165,28 @@ class _CheckoutPage extends State<CheckoutPage> {
                                   textStyle: const TextStyle(fontSize: 20)),
                             ),
                           ),
-                          Text(
-                            priceLoaded ? "Price :$ticketPrice lei" : "",
-                            style: GoogleFonts.roboto(
-                                textStyle: const TextStyle(fontSize: 20)),
+                          FutureBuilder<List<Ticket>?>(
+                            future: getPriceT(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState != ConnectionState.done) return const Center(child: CircularProgressIndicator());
+
+                              return DropdownButton(
+                                items: snapshot.data!
+                                    .map<DropdownMenuItem<int>>((Ticket element) {
+                                  return DropdownMenuItem<int>(
+                                    value: element.getId(),
+                                    child: Text(
+                                        "${element.getType()!} ${element.getPrice().toStringAsPrecision(4)} Ron"),
+                                  );
+                                }).toList(),
+                                value: selectedPrice,
+                                onChanged: (int? value) {
+                                  setState(() {
+                                    selectedPrice = value;
+                                  });},
+                                hint: const Text("Ticket type"),
+                              );
+                            }
                           ),
                           const SizedBox(height: 20),
                           SizedBox(

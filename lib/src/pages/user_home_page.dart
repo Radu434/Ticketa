@@ -48,7 +48,7 @@ class _UserHomePage extends State<UserHomePage> {
                       children: [
                         const SizedBox(width: 50),
                         const Image(
-                          image: AssetImage("assets/logos/circularlogo.png"),
+                          image: AssetImage("logos/circularlogo.png"),
                         ),
                         const SizedBox(width: 50),
                         SizedBox(

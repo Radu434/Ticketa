@@ -43,12 +43,12 @@ class Event {
   }
 
   static Future<Event?> getById(int id) async {
-    Map<String, dynamic>?  response =
+    List<dynamic>? responseList =
         await BackendService.findByParameter('event', 'id=$id');
 
-    if (response != null) {
+    if (responseList!.firstOrNull != null) {
       try {
-        dynamic firstElement = response;
+        dynamic firstElement = responseList.firstOrNull;
         Event event = Event(
             int.parse(firstElement['id']),
             firstElement['name'],
