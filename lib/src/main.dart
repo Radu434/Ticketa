@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ticketa/src/pages/admin_page.dart';
 import 'package:ticketa/src/pages/login_page.dart';
-import 'package:ticketa/src/pages/register_page.dart';
-import 'package:ticketa/src/pages/user_home_page.dart';
 
 bool loggedIn = false;
 
@@ -17,18 +16,26 @@ Future<void> checkIfLoggedIn() async {
 
 void main() {
   checkIfLoggedIn();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ticketa',
-      home: loggedIn ? const UserHomePage() : const LoginPage(),
+      theme: ThemeData(
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+            TargetPlatform.values,
+            value: (dynamic _) => const OpenUpwardsPageTransitionsBuilder(), //applying old animation
+          ),
+        ),
+      ),
+      home: AdminPage() //loggedIn ? const UserHomePage() : const LoginPage(),
     );
   }
 }

@@ -1,10 +1,6 @@
-import 'dart:html';
 import 'dart:math';
-import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ticketa/src/models/event_model.dart';
 import 'package:ticketa/src/models/ticket_model.dart';
 
@@ -20,7 +16,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 String randomAssetImg() {
-  Random rnd = new Random();
+  Random rnd = Random();
   int key = rnd.nextInt(3);
   String path = [
     "assets/party_stock_images/party1.jpg",
@@ -34,7 +30,7 @@ class _CheckoutPage extends State<CheckoutPage> {
   int? selectedPrice;
 
   Future<List<Ticket>?> getPriceT() async {
-   return await Ticket.getAllByEventId(widget.event.getId()!);
+    return await Ticket.getAllByEventId(widget.event.getId()!);
   }
 
   @override
@@ -166,28 +162,33 @@ class _CheckoutPage extends State<CheckoutPage> {
                             ),
                           ),
                           FutureBuilder<List<Ticket>?>(
-                            future: getPriceT(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState != ConnectionState.done) return const Center(child: CircularProgressIndicator());
+                              future: getPriceT(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
 
-                              return DropdownButton(
-                                items: snapshot.data!
-                                    .map<DropdownMenuItem<int>>((Ticket element) {
-                                  return DropdownMenuItem<int>(
-                                    value: element.getId(),
-                                    child: Text(
-                                        "${element.getType()!} ${element.getPrice().toStringAsPrecision(4)} Ron"),
-                                  );
-                                }).toList(),
-                                value: selectedPrice,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    selectedPrice = value;
-                                  });},
-                                hint: const Text("Ticket type"),
-                              );
-                            }
-                          ),
+                                return DropdownButton(
+                                  items: snapshot.data!
+                                      .map<DropdownMenuItem<int>>(
+                                          (Ticket element) {
+                                    return DropdownMenuItem<int>(
+                                      value: element.getId(),
+                                      child: Text(
+                                          "${element.getType()!} ${element.getPrice().toStringAsPrecision(4)} Ron"),
+                                    );
+                                  }).toList(),
+                                  value: selectedPrice,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      selectedPrice = value;
+                                    });
+                                  },
+                                  hint: const Text("Ticket type"),
+                                );
+                              }),
                           const SizedBox(height: 20),
                           SizedBox(
                             width: double.maxFinite,
@@ -200,8 +201,8 @@ class _CheckoutPage extends State<CheckoutPage> {
                                     ),
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.black),
-                                    shape: MaterialStateProperty.all<
+                                    WidgetStateProperty.all(Colors.black),
+                                    shape: WidgetStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0),

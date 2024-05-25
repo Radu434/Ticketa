@@ -1,11 +1,6 @@
-import 'dart:html';
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticketa/src/pages/checkout_page.dart';
 import 'package:ticketa/src/pages/profile_page.dart';
@@ -22,11 +17,13 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePage extends State<UserHomePage> {
   bool isLoading = true;
   late List<Event>? eventList;
-
   @override
   void initState() {
     super.initState();
     getEvents();
+  }
+  void hoverAnimation(){
+
   }
 
   void getEvents() async {
@@ -59,8 +56,8 @@ class _UserHomePage extends State<UserHomePage> {
                                   },
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all(Colors.black),
-                                  shape: MaterialStateProperty.all<
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
                                           RoundedRectangleBorder>(
                                       const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
@@ -78,8 +75,8 @@ class _UserHomePage extends State<UserHomePage> {
                                   },
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all(Colors.black),
-                                  shape: MaterialStateProperty.all<
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
                                           RoundedRectangleBorder>(
                                       const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
@@ -100,8 +97,8 @@ class _UserHomePage extends State<UserHomePage> {
                                   ),
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all(Colors.black),
-                                  shape: MaterialStateProperty.all<
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
                                           RoundedRectangleBorder>(
                                       const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
@@ -132,9 +129,9 @@ class _UserHomePage extends State<UserHomePage> {
                                         },
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                        WidgetStateProperty.all(
                                                 Colors.black),
-                                        shape: MaterialStateProperty.all<
+                                        shape: WidgetStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero,
@@ -152,9 +149,9 @@ class _UserHomePage extends State<UserHomePage> {
                                         },
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                        WidgetStateProperty.all(
                                                 Colors.black),
-                                        shape: MaterialStateProperty.all<
+                                        shape: WidgetStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero,
@@ -172,9 +169,9 @@ class _UserHomePage extends State<UserHomePage> {
                                         },
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                        WidgetStateProperty.all(
                                                 Colors.black),
-                                        shape: MaterialStateProperty.all<
+                                        shape: WidgetStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero,
@@ -212,7 +209,7 @@ class _UserHomePage extends State<UserHomePage> {
                     ],
                   ),
                 ),
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: GridView.count(
                   crossAxisCount: MediaQuery.of(context).size.width > 1300
                       ? 4
@@ -223,45 +220,43 @@ class _UserHomePage extends State<UserHomePage> {
                               : 1,
                   children: List.generate(
                       eventList != null ? eventList!.length : 0, (index) {
-                    return SizedBox(
-                      height: 320,
-                      width: 260,
-                      child: TextButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16))),
+                    return Center(
+                      child: Container(
+                        height: 360,
+                        width: 300,
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
                             )),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CheckoutPage(
-                                    event: eventList!.elementAt(index))),
-                          );
-                        },
-                        child: Container(
-                          height: 320,
-                          width: 260,
-                          padding: const EdgeInsets.all(24),
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(16),
-                              )),
+                        child: FilledButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(Colors.white),
+                              shape: WidgetStateProperty.all(
+                                  const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                          ))),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CheckoutPage(
+                                      event: eventList!.elementAt(index))),
+                            );
+                          },
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                  height: 180,
-                                  width: 240,
-                                  child: FadeInImage(
-                                      placeholder: const AssetImage(
-                                          "assets/logos/logo1.png"),
-                                      image: NetworkImage(eventList!
-                                          .elementAt(index)
-                                          .getPhoto()))),
+                              FadeInImage(
+                                  height: 200,
+                                  width: 300,
+                                  placeholder: const AssetImage(
+                                      "assets/logos/logo1.png"),
+                                  image: NetworkImage(eventList!
+                                      .elementAt(index)
+                                      .getPhoto())),
                               const SizedBox(height: 10),
                               Text(
                                 eventList!.elementAt(index).getName(),
@@ -276,7 +271,7 @@ class _UserHomePage extends State<UserHomePage> {
                                     .getLocation()
                                     .toString(),
                                 style: GoogleFonts.roboto(
-                                    textStyle: const TextStyle(fontSize: 20)),
+                                    textStyle: const TextStyle(fontSize: 20,color: Colors.purpleAccent)),
                               )
                             ],
                           ),

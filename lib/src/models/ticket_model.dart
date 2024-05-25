@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:ticketa/src/database/backend_service.dart';
 
 class Ticket {
-  int? _id;
-  int _eventId;
-  double _price;
-  String? _type;
+  final int? _id;
+  final int _eventId;
+  final double _price;
+  final String? _type;
 
   Ticket(this._id, this._eventId, this._price, this._type);
 
@@ -99,15 +97,15 @@ class Ticket {
   }
 
   double getPrice() {
-    return this._price;
+    return _price;
   }
 
   int? getId() {
-    return this._id;
+    return _id;
   }
 
   String? getType() {
-    return this._type;
+    return _type;
   }
 
   Map<String, dynamic> toJson() =>

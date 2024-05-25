@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:ticketa/src/database/backend_service.dart';
 
 class User {
-  int? _id;
+  final int? _id;
   String? _email;
   String? _username;
   String? _password;

@@ -1,12 +1,7 @@
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ticketa/src/pages/checkout_page.dart';
-import 'package:ticketa/src/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,8 +34,8 @@ class _ProfilePage extends State<ProfilePage> {
                                 },
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black),
-                                shape: MaterialStateProperty.all<
+                                    WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
                                         RoundedRectangleBorder>(
                                     const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.zero,
@@ -57,8 +52,8 @@ class _ProfilePage extends State<ProfilePage> {
                                 },
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black),
-                                shape: MaterialStateProperty.all<
+                                WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
                                         RoundedRectangleBorder>(
                                     const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.zero,
@@ -75,8 +70,8 @@ class _ProfilePage extends State<ProfilePage> {
                                 },
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black),
-                                shape: MaterialStateProperty.all<
+                                WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
                                         RoundedRectangleBorder>(
                                     const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.zero,
@@ -106,9 +101,9 @@ class _ProfilePage extends State<ProfilePage> {
                                       },
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all(
+                                      WidgetStateProperty.all(
                                               Colors.black),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
@@ -126,9 +121,9 @@ class _ProfilePage extends State<ProfilePage> {
                                       },
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all(
+                                      WidgetStateProperty.all(
                                               Colors.black),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
@@ -146,9 +141,9 @@ class _ProfilePage extends State<ProfilePage> {
                                       },
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all(
+                                      WidgetStateProperty.all(
                                               Colors.black),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
@@ -258,8 +253,8 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () => Navigator.pop(context),
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
-                            shape: MaterialStateProperty.all<
+                            WidgetStateProperty.all(Colors.black),
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ))),

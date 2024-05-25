@@ -1,17 +1,6 @@
-import 'dart:js_util';
 import 'dart:math';
-import 'dart:ui';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:ticketa/src/authentication/auth_service.dart';
-import 'package:ticketa/src/database/backend_service.dart';
-import 'package:ticketa/src/models/user_model.dart';
-import 'package:ticketa/src/pages/register_page.dart';
-import 'package:ticketa/src/pages/user_home_page.dart';
 
-import '../models/ticket_model.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
