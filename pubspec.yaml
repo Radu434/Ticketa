@@ -41,6 +41,8 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   animate_gradient: ^0.0.3
+  flutter_dropzone: ^4.0.0
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
