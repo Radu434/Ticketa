@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ticketa/src/authentication/auth_service.dart';
+import 'package:ticketa/src/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -80,6 +82,21 @@ class _ProfilePage extends State<ProfilePage> {
                                 style: GoogleFonts.roboto(
                                     textStyle: const TextStyle(fontSize: 25)))),
                       ),
+                      IconButton(
+                          onPressed: () {
+                            AuthenticationService.logout();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.exit_to_app,
+                            size: 60,
+                            color: Colors.grey,
+                          ))
+
                     ],
                   )
                 : Row(

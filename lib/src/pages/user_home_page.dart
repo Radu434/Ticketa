@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ticketa/src/authentication/auth_service.dart';
 import 'package:ticketa/src/pages/checkout_page.dart';
+import 'package:ticketa/src/pages/login_page.dart';
 import 'package:ticketa/src/pages/profile_page.dart';
 
 import '../models/event_model.dart';
@@ -22,9 +24,7 @@ class _UserHomePage extends State<UserHomePage> {
     super.initState();
     getEvents();
   }
-  void hoverAnimation(){
 
-  }
 
   void getEvents() async {
     setState(() => isLoading = true);
@@ -40,152 +40,158 @@ class _UserHomePage extends State<UserHomePage> {
             preferredSize: const Size.fromHeight(120),
             child: Container(
               color: Colors.black,
-              child: MediaQuery.of(context).size.width > 800
-                  ? Row(
+              child:MediaQuery.of(context).size.width>700? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(width: 50),
                         const Image(
                           image: AssetImage("logos/circularlogo.png"),
                         ),
-                        const SizedBox(width: 50),
-                        SizedBox(
-                          height: double.maxFinite,
-                          child: FilledButton(
-                              onPressed: () => {
-                                    /*navigator to events page*/
-                                  },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  WidgetStateProperty.all(Colors.black),
-                                  shape: WidgetStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                              child: Text("Find Events",
-                                  style: GoogleFonts.roboto(
-                                      textStyle:
-                                          const TextStyle(fontSize: 25)))),
-                        ),
-                        SizedBox(
-                          height: double.maxFinite,
-                          child: FilledButton(
-                              onPressed: () => {
-                                    /*navigator to user tickets page*/
-                                  },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  WidgetStateProperty.all(Colors.black),
-                                  shape: WidgetStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                              child: Text("My Tickets",
-                                  style: GoogleFonts.roboto(
-                                      textStyle:
-                                          const TextStyle(fontSize: 25)))),
-                        ),
-                        SizedBox(
-                          height: double.maxFinite,
-                          child: FilledButton(
-                              onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ProfilePage()),
-                                  ),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  WidgetStateProperty.all(Colors.black),
-                                  shape: WidgetStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                              child: Text("My Profile",
-                                  style: GoogleFonts.roboto(
-                                      textStyle:
-                                          const TextStyle(fontSize: 25)))),
-                        ),
+                        FilledButton(
+                            onPressed: () => {
+                                  /*navigator to events page*/
+                                },
+                            style: ButtonStyle(
+                                backgroundColor:
+                                WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ))),
+                            child: Text("Find Events",
+                                style: GoogleFonts.roboto(
+                                    textStyle:
+                                        const TextStyle(fontSize: 25)))),
+                        FilledButton(
+                            onPressed: () => {
+                                  /*navigator to user tickets page*/
+                                },
+                            style: ButtonStyle(
+                                backgroundColor:
+                                WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ))),
+                            child: Text("My Tickets",
+                                style: GoogleFonts.roboto(
+                                    textStyle:
+                                        const TextStyle(fontSize: 25)))),
+                        FilledButton(
+                            onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfilePage()),
+                                ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                WidgetStateProperty.all(Colors.black),
+                                shape: WidgetStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ))),
+                            child: Text("My Profile",
+                                style: GoogleFonts.roboto(
+                                    textStyle:
+                                        const TextStyle(fontSize: 25)))),
+                        const Expanded(child: SizedBox()),
+                        IconButton(
+                            onPressed:  () {
+                              AuthenticationService.logout();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.exit_to_app,
+                              size: 60,
+                              color: Colors.grey,
+                            ))
                       ],
-                    )
-                  : Row(
-                      children: [
-                        const Image(
-                          image: AssetImage("assets/logos/circularlogo.png"),
-                        ),
-                        const SizedBox(width: 30),
-                        Drawer(
-                          backgroundColor: Colors.black,
-                          child: ListView(
-                            padding: EdgeInsets.zero,
-                            children: [
-                              SizedBox(
-                                width: 300,
-                                child: FilledButton(
-                                    onPressed: () => {
-                                          /*navigator to events page*/
-                                        },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        WidgetStateProperty.all(
-                                                Colors.black),
-                                        shape: WidgetStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero,
-                                        ))),
-                                    child: Text("Find Events",
-                                        style: GoogleFonts.roboto(
-                                            textStyle: const TextStyle(
-                                                fontSize: 25)))),
-                              ),
-                              SizedBox(
-                                width: 300,
-                                child: FilledButton(
-                                    onPressed: () => {
-                                          /*navigator to user tickets page*/
-                                        },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        WidgetStateProperty.all(
-                                                Colors.black),
-                                        shape: WidgetStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero,
-                                        ))),
-                                    child: Text("My Tickets",
-                                        style: GoogleFonts.roboto(
-                                            textStyle: const TextStyle(
-                                                fontSize: 25)))),
-                              ),
-                              SizedBox(
-                                width: 300,
-                                child: FilledButton(
-                                    onPressed: () => {
-                                          /*navigator to user profile page*/
-                                        },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        WidgetStateProperty.all(
-                                                Colors.black),
-                                        shape: WidgetStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero,
-                                        ))),
-                                    child: Text("My Profile",
-                                        style: GoogleFonts.roboto(
-                                            textStyle: const TextStyle(
-                                                fontSize: 25)))),
-                              ),
-                            ],
+                    ):Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Image(
+                    image: AssetImage("logos/circularlogo.png"),
+                  ),
+                  SizedBox(width: 200,child: Column(
+                   mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FilledButton(
+                          onPressed: () => {
+                            /*navigator to events page*/
+                          },
+                          style: ButtonStyle(
+                              backgroundColor:
+                              WidgetStateProperty.all(Colors.black),
+                              shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                          child: Text("Find Events",
+                              style: GoogleFonts.roboto(
+                                  textStyle:
+                                  const TextStyle(fontSize: 20)))),
+                      FilledButton(
+                          onPressed: () => {
+                            /*navigator to user tickets page*/
+                          },
+                          style: ButtonStyle(
+                              backgroundColor:
+                              WidgetStateProperty.all(Colors.black),
+                              shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                          child: Text("My Tickets",
+                              style: GoogleFonts.roboto(
+                                  textStyle:
+                                  const TextStyle(fontSize: 20)))),
+                      FilledButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const ProfilePage()),
                           ),
-                        )
-                      ],
-                    ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                              WidgetStateProperty.all(Colors.black),
+                              shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                          child: Text("My Profile",
+                              style: GoogleFonts.roboto(
+                                  textStyle:
+                                  const TextStyle(fontSize: 20)))),
+                    ],
+                  ),),
+                  IconButton(
+                      onPressed:  () {
+                        AuthenticationService.logout();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.exit_to_app,
+                        size: 60,
+                        color: Colors.grey,
+                      ))
+                ],
+              )
+
             )),
         body: (!isLoading)
             ? Container(
@@ -230,50 +236,52 @@ class _UserHomePage extends State<UserHomePage> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(16),
                             )),
-                        child: FilledButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(Colors.white),
-                              shape: WidgetStateProperty.all(
-                                  const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                          ))),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CheckoutPage(
-                                      event: eventList!.elementAt(index))),
-                            );
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              FadeInImage(
-                                  height: 200,
-                                  width: 300,
-                                  placeholder: const AssetImage(
-                                      "assets/logos/logo1.png"),
-                                  image: NetworkImage(eventList!
+                        child: SingleChildScrollView(
+                          child: FilledButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(Colors.white),
+                                shape: WidgetStateProperty.all(
+                                    const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CheckoutPage(
+                                        event: eventList!.elementAt(index))),
+                              );
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                FadeInImage(
+                                    height: 200,
+                                    width: 300,
+                                    placeholder: const AssetImage(
+                                        "assets/logos/logo1.png"),
+                                    image: NetworkImage(eventList!
+                                        .elementAt(index)
+                                        .getPhoto())),
+                                const SizedBox(height: 10),
+                                Text(
+                                  eventList!.elementAt(index).getName(),
+                                  style: GoogleFonts.quicksand(
+                                      textStyle: const TextStyle(
+                                          fontSize: 25, color: Colors.black)),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  eventList!
                                       .elementAt(index)
-                                      .getPhoto())),
-                              const SizedBox(height: 10),
-                              Text(
-                                eventList!.elementAt(index).getName(),
-                                style: GoogleFonts.quicksand(
-                                    textStyle: const TextStyle(
-                                        fontSize: 25, color: Colors.black)),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                eventList!
-                                    .elementAt(index)
-                                    .getLocation()
-                                    .toString(),
-                                style: GoogleFonts.roboto(
-                                    textStyle: const TextStyle(fontSize: 20,color: Colors.purpleAccent)),
-                              )
-                            ],
+                                      .getLocation()
+                                      .toString(),
+                                  style: GoogleFonts.roboto(
+                                      textStyle: const TextStyle(fontSize: 20,color: Colors.purpleAccent)),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

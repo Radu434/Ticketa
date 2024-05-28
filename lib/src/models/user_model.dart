@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:ticketa/src/database/backend_service.dart';
 
 class User {
@@ -98,7 +97,7 @@ class User {
   static Future<void> update(int id, User user) async {
     try {
       await BackendService.updateByParameter(
-          'user', 'id=$id', jsonEncode(user.toJson()));
+          'user', 'id=$id', user.toJson());
     } catch (e) {
       print(e.toString());
     }

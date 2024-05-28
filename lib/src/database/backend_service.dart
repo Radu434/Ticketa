@@ -22,6 +22,7 @@ class BackendService {
   static Future<int> add(
       String location, Map<String, dynamic>? dataBody) async {
     var client = Client();
+    print(jsonEncode(dataBody));
     try {
       var response = await client.post(
           Uri.parse('http://localhost/ticketa_backend/$location'),
@@ -53,12 +54,26 @@ class BackendService {
   }
 
   static Future<bool> updateByParameter(
-      String resource, String params, String dataBody) async {
+      String resource, String params, Map<String, dynamic>? dataBody) async {
     var client = Client();
     try {
       await client.patch(
           Uri.parse('http://localhost/ticketa_backend/$resource?$params'),
-          body: dataBody);
+          body: jsonEncode(dataBody));
+      client.close();
+    } catch (e) {
+      print(e);
+      return false;
+    }
+    return true;
+  }
+
+  static Future<bool> delete(String resource, int id) async {
+    var client = Client();
+    try {
+      await client.delete(
+          Uri.parse('http://localhost/ticketa_backend/$resource?id=$id'),
+          );
       client.close();
     } catch (e) {
       print(e);

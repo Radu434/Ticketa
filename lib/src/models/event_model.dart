@@ -72,11 +72,38 @@ class Event {
         "photo": _photo
       };
 
-  static Future<void> create(Event event) async {
+  static Future<int?> create(Event event) async {
     try {
-      await BackendService.add('event', event.toJson());
+      return await BackendService.add('event', event.toJson());
     } catch (e) {
       print(e.toString());
+      return null;
+    }
+  }
+
+  static Future<bool> delete(int? id) async {
+    if (id == null) {
+      return false;
+    }
+    try {
+      return await BackendService.delete("event", id);
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  static Future<bool> update(int? id, Event event) async {
+    if (id == null) {
+      return false;
+    }
+    try {
+     await BackendService.updateByParameter(
+         "event", "id=$id", event.toJson());
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 

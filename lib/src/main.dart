@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ticketa/src/pages/admin_page.dart';
 import 'package:ticketa/src/pages/login_page.dart';
+import 'package:ticketa/src/pages/user_home_page.dart';
 
 bool loggedIn = false;
 
@@ -31,11 +31,12 @@ class MyApp extends StatelessWidget {
         pageTransitionsTheme: PageTransitionsTheme(
           builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
             TargetPlatform.values,
-            value: (dynamic _) => const OpenUpwardsPageTransitionsBuilder(), //applying old animation
+            value: (dynamic _) =>
+                const OpenUpwardsPageTransitionsBuilder(), //applying old animation
           ),
         ),
       ),
-      home: const AdminPage() //loggedIn ? const UserHomePage() : const LoginPage(),
+      home: loggedIn ? const UserHomePage() : const LoginPage(),
     );
   }
 }

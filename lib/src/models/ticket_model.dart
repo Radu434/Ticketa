@@ -107,6 +107,9 @@ class Ticket {
   String? getType() {
     return _type;
   }
+  int getEventId(){
+    return _eventId;
+  }
 
   Map<String, dynamic> toJson() =>
       {"id": _id, "event_id": _eventId, "price": _price, "type": _type};
@@ -119,9 +122,9 @@ class Ticket {
         "user_id": userId
       };
 
-  static Future<void> create(Ticket ticket, int userId) async {
+  static Future<void> create(Ticket ticket) async {
     try {
-      await BackendService.add('ticket', ticket.toJsonWithUserId(userId));
+      await BackendService.add('ticket', ticket.toJson());
     } catch (e) {
       print(e.toString());
     }
