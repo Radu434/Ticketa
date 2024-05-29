@@ -28,6 +28,7 @@ String randomAssetImg() {
 
 class _CheckoutPage extends State<CheckoutPage> {
   int? selectedTicketId;
+  bool expired = false;
 
   Future<List<Ticket>?> getTickets() async {
     return await Ticket.getAllByEventId(widget.event.getId()!);
@@ -37,6 +38,9 @@ class _CheckoutPage extends State<CheckoutPage> {
   void initState() {
     super.initState();
     getTickets();
+    DateTime.parse(widget.event.getDate()).compareTo(DateTime.now()) >= 0
+        ? expired = false
+        : expired = true;
   }
 
   String imagePath = randomAssetImg();
@@ -194,13 +198,23 @@ class _CheckoutPage extends State<CheckoutPage> {
                             width: double.maxFinite,
                             child: FilledButton(
                                 onPressed: () async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  int? userId = prefs.getInt('userId');
-                                  if (userId != null &&
-                                      selectedTicketId != null) {
-                                    Transaction.create(Transaction(
-                                        null, userId, selectedTicketId!, ""));
+                                  if (!expired) {
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    int? userId = prefs.getInt('userId');
+                                    if (userId != null &&
+                                        selectedTicketId != null) {
+                                      Transaction.create(Transaction(
+                                          null, userId, selectedTicketId!, ""));
+                                    }
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => const AlertDialog(
+                                          alignment: Alignment.center,
+                                              content:
+                                                  Text("Expired Event, cannot purhcase"),
+                                            ));
                                   }
                                 },
                                 style: ButtonStyle(
