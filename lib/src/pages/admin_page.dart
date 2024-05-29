@@ -310,7 +310,7 @@ class _AdminPage extends State<AdminPage> {
                                         children: [
                                           DropzoneView(
                                             onCreated: (controller) =>
-                                                this._controller = controller,
+                                                _controller = controller,
                                             onDrop: (param) {
                                               loadImage(param);
                                             },
@@ -630,7 +630,7 @@ class _AdminPage extends State<AdminPage> {
                                                     ticket.getPrice(),
                                                     ticket.getType()));
                                               }
-                                              ;
+
                                             });
                                           }
                                           _eventNameController.clear();
@@ -851,7 +851,7 @@ class _AdminPage extends State<AdminPage> {
                                         children: [
                                           DropzoneView(
                                             onCreated: (controller) =>
-                                                this._controller = controller,
+                                                _controller = controller,
                                             onDrop: (param) {
                                               loadImage(param);
                                             },
@@ -1171,7 +1171,7 @@ class _AdminPage extends State<AdminPage> {
                                                     ticket.getPrice(),
                                                     ticket.getType()));
                                               }
-                                              ;
+
                                             });
                                           }
                                           _eventNameController.clear();

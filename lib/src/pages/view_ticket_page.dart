@@ -156,7 +156,7 @@ class _ViewTicketPage extends State<ViewTicketPage> {
                                 textStyle: const TextStyle(fontSize: 30)),
                           ),
                           DottedBorder(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             color: DateTime.parse(widget.event.getDate()).compareTo(DateTime.now())>=0?Colors.green:Colors.grey,
                             child:  QrImageView(
                                 size: 170,
@@ -170,7 +170,7 @@ class _ViewTicketPage extends State<ViewTicketPage> {
                                 color: Colors.red,
                                   textStyle: const TextStyle(fontSize: 20)),
                             ),
-                          ):SizedBox(),
+                          ):const SizedBox(),
                           Center(
 
                             child: Text(

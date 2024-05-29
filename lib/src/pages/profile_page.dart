@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticketa/src/authentication/auth_service.dart';
 import 'package:ticketa/src/models/user_model.dart';
 import 'package:ticketa/src/pages/login_page.dart';
+import 'package:ticketa/src/pages/user_home_page.dart';
+import 'package:ticketa/src/pages/user_tickets_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -38,7 +40,12 @@ class _ProfilePage extends State<ProfilePage> {
                           height: double.infinity,
                           child: FilledButton(
                               onPressed: () => {
-                                    /*navigator to events page*/
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                      const UserHomePage()),
+                                ),
                                   },
                               style: ButtonStyle(
                                   backgroundColor:
@@ -57,7 +64,11 @@ class _ProfilePage extends State<ProfilePage> {
                           height: double.infinity,
                           child: FilledButton(
                               onPressed: () => {
-                                    /*navigator to user tickets page*/
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const UserTicketsPage()),
+                                )
                                   },
                               style: ButtonStyle(
                                   backgroundColor:
@@ -98,11 +109,16 @@ class _ProfilePage extends State<ProfilePage> {
                         SizedBox(
                           width: 200,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FilledButton(
                                   onPressed: () => {
-                                        /*navigator to events page*/
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const UserHomePage()),
+                                    ),
                                       },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -118,7 +134,11 @@ class _ProfilePage extends State<ProfilePage> {
                                               const TextStyle(fontSize: 20)))),
                               FilledButton(
                                   onPressed: () => {
-                                        /*navigator to user tickets page*/
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const UserTicketsPage()),
+                                    )
                                       },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -132,25 +152,7 @@ class _ProfilePage extends State<ProfilePage> {
                                       style: GoogleFonts.roboto(
                                           textStyle:
                                               const TextStyle(fontSize: 20)))),
-                              FilledButton(
-                                  onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ProfilePage()),
-                                      ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          WidgetStateProperty.all(Colors.black),
-                                      shape: WidgetStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.zero,
-                                      ))),
-                                  child: Text("My Profile",
-                                      style: GoogleFonts.roboto(
-                                          textStyle:
-                                              const TextStyle(fontSize: 20)))),
+
                             ],
                           ),
                         ),
@@ -266,9 +268,9 @@ class _ProfilePage extends State<ProfilePage> {
                       child: FilledButton(
                           onPressed: () async{
                             final prefs = await SharedPreferences.getInstance();
-                           int? id = await prefs.getInt('userId');
+                           int? id = prefs.getInt('userId');
                            if(id!=null){
-                             User.update(id, new User(null, _emailController.text, _usernameController.text, _passwordController.text));
+                             User.update(id, User(null, _emailController.text, _usernameController.text, _passwordController.text));
                            }
                           },
                           style: ButtonStyle(

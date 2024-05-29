@@ -86,7 +86,7 @@ class Transaction {
   }
 
   String getDate() {
-    return this._date;
+    return _date;
   }
 
   Map<String, dynamic> toJson() =>

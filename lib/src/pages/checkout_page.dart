@@ -196,7 +196,7 @@ class _CheckoutPage extends State<CheckoutPage> {
                                 onPressed: () async {
                                   final prefs =
                                       await SharedPreferences.getInstance();
-                                  int? userId = await prefs.getInt('userId');
+                                  int? userId = prefs.getInt('userId');
                                   if (userId != null &&
                                       selectedTicketId != null) {
                                     Transaction.create(Transaction(

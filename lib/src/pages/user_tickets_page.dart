@@ -6,9 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticketa/src/authentication/auth_service.dart';
 import 'package:ticketa/src/models/ticket_model.dart';
 import 'package:ticketa/src/models/transaction_model.dart';
-import 'package:ticketa/src/pages/checkout_page.dart';
 import 'package:ticketa/src/pages/login_page.dart';
 import 'package:ticketa/src/pages/profile_page.dart';
+import 'package:ticketa/src/pages/user_home_page.dart';
 import 'package:ticketa/src/pages/view_ticket_page.dart';
 
 import '../models/event_model.dart';
@@ -35,8 +35,10 @@ class _UserTicketsPage extends State<UserTicketsPage> {
   void getTansactions() async {
     setState(() => isLoading = true);
     final prefs = await SharedPreferences.getInstance();
-    int? id = await prefs.getInt('userId');
+    int? id = prefs.getInt('userId');
     transactionList = await Transaction.getByUserId(id??-1);
+    transactionList!.sort((a,b)=> (b.getId()??1).compareTo(a.getId()??-1) );
+
     setState(() {
       isLoading = false;
       userId = id??-1;
@@ -62,7 +64,12 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                             height: double.infinity,
                             child: FilledButton(
                                 onPressed: () => {
-                                      /*navigator to events page*/
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const UserHomePage()),
+                                  ),
                                     },
                                 style: ButtonStyle(
                                     backgroundColor:
@@ -80,8 +87,10 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                           SizedBox(
                             height: double.infinity,
                             child: FilledButton(
-                                onPressed: () => {
-                                      /*navigator to user tickets page*/
+                                onPressed: ()  {
+                                     setState(() {
+
+                                     });
                                     },
                                 style: ButtonStyle(
                                     backgroundColor:
@@ -99,7 +108,7 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                           SizedBox(
                             height: double.infinity,
                             child: FilledButton(
-                                onPressed: () => Navigator.push(
+                                onPressed: () => Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -148,7 +157,12 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                               children: [
                                 FilledButton(
                                     onPressed: () => {
-                                          /*navigator to events page*/
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            const UserHomePage()),
+                                      ),
                                         },
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -181,7 +195,7 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                                             textStyle: const TextStyle(
                                                 fontSize: 20)))),
                                 FilledButton(
-                                    onPressed: () => Navigator.push(
+                                    onPressed: () => Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -354,76 +368,3 @@ class _UserTicketsPage extends State<UserTicketsPage> {
   }
 }
 
-/*Container(
-        height: max(MediaQuery.of(context).size.height - 120, 600),
-        width: max(MediaQuery.of(context).size.width, 600),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [
-              0.1,
-              0.3,
-              0.6,
-              0.9,
-            ],
-            colors: [
-              Colors.black,
-              Colors.indigo,
-              Colors.blue,
-              Colors.orange,
-            ],
-          ),
-        ),
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: GridView.count(
-          crossAxisCount: MediaQuery.of(context).size.width > 1300
-              ? 4
-              : MediaQuery.of(context).size.width > 1000
-                  ? 3
-                  : MediaQuery.of(context).size.width > 700
-                      ? 2
-                      : 1,
-          children: List.generate(20, (index) {
-            return TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CheckoutPage()),
-              ),
-              child: Container(
-                height: 320,
-                width: 260,
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16),
-                    )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                        height: 180,
-                        width: 240,
-                        child:
-                            Image(image: AssetImage("assets/logos/logo1.png"))),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Event x y z',
-                      style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                              fontSize: 30, color: Colors.black)),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "Price: $index leu",
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(fontSize: 20)),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
-        ),
-      ),*/

@@ -18,7 +18,6 @@ class FreeImageHostUploader {
       if (response.statusCode == 200) {
         var decodedJson = jsonDecode(response.body);
         String imageUrl = decodedJson['image']['url'];
-        print(imageUrl);
         return imageUrl;
       }
     } catch (e) {

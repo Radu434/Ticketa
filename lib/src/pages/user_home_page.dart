@@ -31,6 +31,7 @@ class _UserHomePage extends State<UserHomePage> {
     setState(() => isLoading = true);
 
     eventList = await Event.getAll();
+    eventList!.sort((a,b)=>DateTime.parse(b.getDate()).compareTo(DateTime.parse(a.getDate())));
     setState(() => isLoading = false);
   }
 
@@ -44,7 +45,7 @@ class _UserHomePage extends State<UserHomePage> {
               child:MediaQuery.of(context).size.width>700? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Expanded(child: SizedBox()),
+                        const Expanded(child: SizedBox()),
                         const Image(
                           image: AssetImage("logos/circularlogo.png"),
                         ),
@@ -77,7 +78,7 @@ class _UserHomePage extends State<UserHomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => UserTicketsPage()),
+                                      builder: (context) => const UserTicketsPage()),
                                 )
                                   },
                               style: ButtonStyle(
@@ -97,7 +98,7 @@ class _UserHomePage extends State<UserHomePage> {
                         SizedBox(
                           height: double.infinity,
                           child: FilledButton(
-                              onPressed: () => Navigator.push(
+                              onPressed: () => Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -175,7 +176,7 @@ class _UserHomePage extends State<UserHomePage> {
                                   textStyle:
                                   const TextStyle(fontSize: 20)))),
                       FilledButton(
-                          onPressed: () => Navigator.push(
+                          onPressed: () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
@@ -246,20 +247,21 @@ class _UserHomePage extends State<UserHomePage> {
                               : 1,
                   children: List.generate(
                       eventList != null ? eventList!.length : 0, (index) {
+                        final Color statusColor = DateTime.parse(eventList!.elementAt(index).getDate()).compareTo(DateTime.now())>=0? Colors.white:Colors.grey;
                     return Center(
                       child: Container(
                         height: 360,
                         width: 300,
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
+                        decoration:  BoxDecoration(
+                            color:statusColor,
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(16),
                             )),
                         child: SingleChildScrollView(
                           child: FilledButton(
                             style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all(Colors.white),
+                              backgroundColor: WidgetStateProperty.all(statusColor),
                                 shape: WidgetStateProperty.all(
                                     const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -298,7 +300,7 @@ class _UserHomePage extends State<UserHomePage> {
                                       .getLocation()
                                       .toString(),
                                   style: GoogleFonts.roboto(
-                                      textStyle: const TextStyle(fontSize: 20,color: Colors.purpleAccent)),
+                                      textStyle: const TextStyle(fontSize: 20,color: Colors.indigo)),
                                 )
                               ],
                             ),
@@ -315,76 +317,4 @@ class _UserHomePage extends State<UserHomePage> {
   }
 }
 
-/*Container(
-        height: max(MediaQuery.of(context).size.height - 120, 600),
-        width: max(MediaQuery.of(context).size.width, 600),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [
-              0.1,
-              0.3,
-              0.6,
-              0.9,
-            ],
-            colors: [
-              Colors.black,
-              Colors.indigo,
-              Colors.blue,
-              Colors.orange,
-            ],
-          ),
-        ),
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: GridView.count(
-          crossAxisCount: MediaQuery.of(context).size.width > 1300
-              ? 4
-              : MediaQuery.of(context).size.width > 1000
-                  ? 3
-                  : MediaQuery.of(context).size.width > 700
-                      ? 2
-                      : 1,
-          children: List.generate(20, (index) {
-            return TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CheckoutPage()),
-              ),
-              child: Container(
-                height: 320,
-                width: 260,
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16),
-                    )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                        height: 180,
-                        width: 240,
-                        child:
-                            Image(image: AssetImage("assets/logos/logo1.png"))),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Event x y z',
-                      style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                              fontSize: 30, color: Colors.black)),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "Price: $index leu",
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(fontSize: 20)),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
-        ),
-      ),*/
+
