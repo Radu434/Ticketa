@@ -36,12 +36,13 @@ class _UserTicketsPage extends State<UserTicketsPage> {
     setState(() => isLoading = true);
     final prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('userId');
-    transactionList = await Transaction.getByUserId(id??-1);
-    transactionList!.sort((a,b)=> (b.getId()??1).compareTo(a.getId()??-1) );
+    transactionList = await Transaction.getByUserId(id ?? -1);
+    transactionList!
+        .sort((a, b) => (b.getId() ?? 1).compareTo(a.getId() ?? -1));
 
     setState(() {
       isLoading = false;
-      userId = id??-1;
+      userId = id ?? -1;
     });
   }
 
@@ -64,12 +65,12 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                             height: double.infinity,
                             child: FilledButton(
                                 onPressed: () => {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const UserHomePage()),
-                                  ),
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const UserHomePage()),
+                                      ),
                                     },
                                 style: ButtonStyle(
                                     backgroundColor:
@@ -87,11 +88,9 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                           SizedBox(
                             height: double.infinity,
                             child: FilledButton(
-                                onPressed: ()  {
-                                     setState(() {
-
-                                     });
-                                    },
+                                onPressed: () {
+                                  setState(() {});
+                                },
                                 style: ButtonStyle(
                                     backgroundColor:
                                         WidgetStateProperty.all(Colors.black),
@@ -157,12 +156,12 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                               children: [
                                 FilledButton(
                                     onPressed: () => {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const UserHomePage()),
-                                      ),
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UserHomePage()),
+                                          ),
                                         },
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -266,30 +265,39 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                               : 1,
                   children: List.generate(
                     transactionList != null ? transactionList!.length : 0,
-                        (index) {
+                    (index) {
                       return FutureBuilder<Ticket?>(
-                        future: Ticket.getById(transactionList!.elementAt(index).getTicketId()),
+                        future: Ticket.getById(
+                            transactionList!.elementAt(index).getTicketId()),
                         builder: (context, ticketSnapshot) {
-                          if (ticketSnapshot.connectionState == ConnectionState.waiting) {
-                            return const Center(child: CircularProgressIndicator());
+                          if (ticketSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
                           } else if (ticketSnapshot.hasError) {
-                            return Center(child: Text('Error: ${ticketSnapshot.error}'));
+                            return Center(
+                                child: Text('Error: ${ticketSnapshot.error}'));
                           } else {
                             Ticket ticket = ticketSnapshot.data!;
                             return FutureBuilder<Event?>(
                               future: Event.getById(ticket.getEventId()),
                               builder: (context, eventSnapshot) {
-                                if (eventSnapshot.connectionState == ConnectionState.waiting) {
-                                  return const Center(child: CircularProgressIndicator());
+                                if (eventSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
                                 } else if (eventSnapshot.hasError) {
-                                  return Center(child: Text('Error: ${eventSnapshot.error}'));
+                                  return Center(
+                                      child: Text(
+                                          'Error: ${eventSnapshot.error}'));
                                 } else {
                                   Event event = eventSnapshot.data!;
                                   return Center(
                                     child: Container(
                                       height: 360,
                                       width: 300,
-                                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 10, 0, 10),
                                       decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.all(
@@ -299,10 +307,13 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                                       child: SingleChildScrollView(
                                         child: ElevatedButton(
                                           style: ButtonStyle(
-                                            backgroundColor: WidgetStateProperty.all(Colors.white),
+                                            backgroundColor:
+                                                WidgetStateProperty.all(
+                                                    Colors.white),
                                             shape: WidgetStateProperty.all(
                                               const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(16)),
                                               ),
                                             ),
                                           ),
@@ -310,40 +321,63 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => ViewTicketPage(event: event, ticket: ticket,transaction:transactionList!.elementAt(index)),
+                                                builder: (context) =>
+                                                    ViewTicketPage(
+                                                        event: event,
+                                                        ticket: ticket,
+                                                        transaction:
+                                                            transactionList!
+                                                                .elementAt(
+                                                                    index)),
                                               ),
                                             );
                                           },
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               FadeInImage(
                                                 height: 200,
                                                 width: 300,
-                                                placeholder: const AssetImage("assets/logos/logo1.png"),
-                                                image: NetworkImage(event.getPhoto()),
+                                                placeholder: const AssetImage(
+                                                    "assets/logos/logo1.png"),
+                                                image: NetworkImage(
+                                                    event.getPhoto()),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
                                                 event.getName(),
                                                 style: GoogleFonts.quicksand(
-                                                  textStyle: const TextStyle(fontSize: 25, color: Colors.black),
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 25,
+                                                      color: Colors.black),
                                                 ),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
-                                                ticket.getType()??"Standard",
+                                                ticket.getType() ?? "Standard",
                                                 style: GoogleFonts.roboto(
-                                                  textStyle: const TextStyle(fontSize: 20, color: Colors.indigo),
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.indigo),
                                                 ),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
                                                 event.getDate(),
                                                 style: GoogleFonts.roboto(
-                                                  textStyle:  TextStyle(fontSize: 20, color:
-                                                  DateTime.parse(event.getDate()).compareTo(DateTime.now())>=0?Colors.green:Colors.grey),
+                                                  textStyle: TextStyle(
+                                                      fontSize: 20,
+                                                      color: DateTime.parse(event
+                                                                      .getDate())
+                                                                  .compareTo(
+                                                                      DateTime
+                                                                          .now()) >=
+                                                              0
+                                                          ? Colors.green
+                                                          : Colors.grey),
                                                 ),
                                               ),
                                             ],
@@ -360,11 +394,25 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                       );
                     },
                   ),
-                ),
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
+                ))
+            : Center(
+                child: FilledButton(
+                    onPressed: () => {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UserHomePage()),
+                          ),
+                        },
+                    style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.black),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ))),
+                    child: Text("Find Events",
+                        style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(fontSize: 20)))),
               ));
   }
 }
-
