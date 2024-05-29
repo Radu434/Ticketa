@@ -50,7 +50,7 @@ class Ticket {
     return null;
   }
 
-  static Future<List<dynamic>?> getByUserId(int userId) async {
+  static Future<List<Ticket>?> getByUserId(int userId) async {
     List<Ticket>? ticketList = [];
 
     List<dynamic>? responseList =

@@ -6,6 +6,7 @@ import 'package:ticketa/src/authentication/auth_service.dart';
 import 'package:ticketa/src/pages/checkout_page.dart';
 import 'package:ticketa/src/pages/login_page.dart';
 import 'package:ticketa/src/pages/profile_page.dart';
+import 'package:ticketa/src/pages/user_tickets_page.dart';
 
 import '../models/event_model.dart';
 
@@ -41,62 +42,80 @@ class _UserHomePage extends State<UserHomePage> {
             child: Container(
               color: Colors.black,
               child:MediaQuery.of(context).size.width>700? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        Expanded(child: SizedBox()),
                         const Image(
                           image: AssetImage("logos/circularlogo.png"),
                         ),
-                        FilledButton(
-                            onPressed: () => {
-                                  /*navigator to events page*/
-                                },
-                            style: ButtonStyle(
-                                backgroundColor:
-                                WidgetStateProperty.all(Colors.black),
-                                shape: WidgetStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.zero,
-                                ))),
-                            child: Text("Find Events",
-                                style: GoogleFonts.roboto(
-                                    textStyle:
-                                        const TextStyle(fontSize: 25)))),
-                        FilledButton(
-                            onPressed: () => {
-                                  /*navigator to user tickets page*/
-                                },
-                            style: ButtonStyle(
-                                backgroundColor:
-                                WidgetStateProperty.all(Colors.black),
-                                shape: WidgetStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.zero,
-                                ))),
-                            child: Text("My Tickets",
-                                style: GoogleFonts.roboto(
-                                    textStyle:
-                                        const TextStyle(fontSize: 25)))),
-                        FilledButton(
-                            onPressed: () => Navigator.push(
+                        SizedBox(
+                          height: double.infinity,
+
+                          child: FilledButton(
+                              onPressed: () => {
+                                    /*navigator to events page*/
+                                  },
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                              child: Text("Find Events",
+                                  style: GoogleFonts.roboto(
+                                      textStyle:
+                                          const TextStyle(fontSize: 25)))),
+                        ),
+                        SizedBox(
+                          height: double.infinity,
+
+                          child: FilledButton(
+
+                              onPressed: () => {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ProfilePage()),
-                                ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                WidgetStateProperty.all(Colors.black),
-                                shape: WidgetStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.zero,
-                                ))),
-                            child: Text("My Profile",
-                                style: GoogleFonts.roboto(
-                                    textStyle:
-                                        const TextStyle(fontSize: 25)))),
+                                      builder: (context) => UserTicketsPage()),
+                                )
+                                  },
+                              style: ButtonStyle(
+
+                                  backgroundColor:
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                              child: Text("My Tickets",
+                                  style: GoogleFonts.roboto(
+                                      textStyle:
+                                          const TextStyle(fontSize: 25)))),
+                        ),
+                        SizedBox(
+                          height: double.infinity,
+                          child: FilledButton(
+                              onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ProfilePage()),
+                                  ),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                  WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ))),
+                              child: Text("My Profile",
+                                  style: GoogleFonts.roboto(
+                                      textStyle:
+                                          const TextStyle(fontSize: 25)))),
+                        ),
                         const Expanded(child: SizedBox()),
                         IconButton(
                             onPressed:  () {
@@ -113,8 +132,9 @@ class _UserHomePage extends State<UserHomePage> {
                               color: Colors.grey,
                             ))
                       ],
-                    ):Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ):
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   const Image(
                     image: AssetImage("logos/circularlogo.png"),

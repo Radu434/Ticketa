@@ -1,18 +1,22 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticketa/src/models/event_model.dart';
 import 'package:ticketa/src/models/ticket_model.dart';
 import 'package:ticketa/src/models/transaction_model.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
-class CheckoutPage extends StatefulWidget {
+class ViewTicketPage extends StatefulWidget {
   final Event event;
-
-  const CheckoutPage({super.key, required this.event});
+  final Transaction transaction;
+  final Ticket ticket;
+  const ViewTicketPage({super.key, required this.event,
+    required this.ticket,required this.transaction});
 
   @override
-  State<CheckoutPage> createState() => _CheckoutPage();
+  State<ViewTicketPage> createState() => _ViewTicketPage();
 }
 
 String randomAssetImg() {
@@ -26,8 +30,7 @@ String randomAssetImg() {
   return path;
 }
 
-class _CheckoutPage extends State<CheckoutPage> {
-  int? selectedTicketId;
+class _ViewTicketPage extends State<ViewTicketPage> {
 
   Future<List<Ticket>?> getTickets() async {
     return await Ticket.getAllByEventId(widget.event.getId()!);
@@ -113,7 +116,7 @@ class _CheckoutPage extends State<CheckoutPage> {
                         children: [
                           FadeInImage(
                               placeholder:
-                                  const AssetImage("assets/logos/logo1.png"),
+                              const AssetImage("assets/logos/logo1.png"),
                               image: NetworkImage(widget.event.getPhoto())),
                           const SizedBox(
                             height: 40,
@@ -148,83 +151,35 @@ class _CheckoutPage extends State<CheckoutPage> {
                       child: Column(
                         children: [
                           Text(
-                            "Fun is just one click away!",
+                            "My Ticket",
                             style: GoogleFonts.quicksand(
                                 textStyle: const TextStyle(fontSize: 30)),
                           ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            height: 160,
+                          DottedBorder(
+                            padding: EdgeInsets.all(10),
+                            color: DateTime.parse(widget.event.getDate()).compareTo(DateTime.now())>=0?Colors.green:Colors.grey,
+                            child:  QrImageView(
+                                size: 170,
+                                data: "{transaction: ${jsonEncode(widget.transaction.toJson())} ticket: ${jsonEncode(widget.ticket.toJson())}}".toString()
+                            ),
+                          ),
+                          DateTime.parse(widget.event.getDate()).compareTo(DateTime.now())<0? Center(
                             child: Text(
-                              widget.event.getDescription(),
+                              "Event Expired",
+                              style: GoogleFonts.roboto(
+                                color: Colors.red,
+                                  textStyle: const TextStyle(fontSize: 20)),
+                            ),
+                          ):SizedBox(),
+                          Center(
+
+                            child: Text(
+                              widget.ticket.getType().toString(),
                               style: GoogleFonts.roboto(
                                   textStyle: const TextStyle(fontSize: 20)),
                             ),
                           ),
-                          FutureBuilder<List<Ticket>?>(
-                              future: getTickets(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState !=
-                                    ConnectionState.done) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }
 
-                                return DropdownButton(
-                                  items: snapshot.data!
-                                      .map<DropdownMenuItem<int>>(
-                                          (Ticket element) {
-                                    return DropdownMenuItem<int>(
-                                      value: element.getId(),
-                                      child: Text(
-                                          "${element.getType()!} ${element.getPrice().toStringAsPrecision(4)} Ron"),
-                                    );
-                                  }).toList(),
-                                  value: selectedTicketId,
-                                  onChanged: (int? value) {
-                                    setState(() {
-                                      selectedTicketId = value;
-                                    });
-                                  },
-                                  hint: const Text("Ticket type"),
-                                );
-                              }),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: double.maxFinite,
-                            child: FilledButton(
-                                onPressed: () async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  int? userId = await prefs.getInt('userId');
-                                  if (userId != null &&
-                                      selectedTicketId != null) {
-                                    Transaction.create(Transaction(
-                                        null, userId, selectedTicketId!, ""));
-                                  }
-                                },
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all(Colors.black),
-                                    shape: WidgetStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.paypal,
-                                      size: 20,
-                                    ),
-                                    Text("Purchase",
-                                        style: GoogleFonts.roboto(
-                                            textStyle:
-                                                const TextStyle(fontSize: 20))),
-                                  ],
-                                )),
-                          ),
                           const SizedBox(
                             height: 10,
                           ),
