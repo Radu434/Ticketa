@@ -22,7 +22,7 @@ class FreeImageHostUploader {
       }
     } catch (e) {
       print(e);
-      return "";
+      return '';
     }
     client.close();
     return '';

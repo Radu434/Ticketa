@@ -243,7 +243,6 @@ class _ProfilePage extends State<ProfilePage> {
                       width: 300,
                       child: TextField(
                         controller: _emailController,
-                        obscureText: true,
                         decoration: const InputDecoration(
                             hintText: "New Email",
                             icon: Icon(Icons.alternate_email, size: 20)),
