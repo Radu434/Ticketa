@@ -177,9 +177,7 @@ class _UserTicketsPage extends State<UserTicketsPage> {
                                             textStyle: const TextStyle(
                                                 fontSize: 20)))),
                                 FilledButton(
-                                    onPressed: () => {
-                                          /*navigator to user tickets page*/
-                                        },
+                                    onPressed: () => {setState(() {})},
                                     style: ButtonStyle(
                                         backgroundColor:
                                             WidgetStateProperty.all(

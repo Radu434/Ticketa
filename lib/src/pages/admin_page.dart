@@ -250,7 +250,9 @@ class _AdminPage extends State<AdminPage> {
                                                                         EditEventPage(
                                                                             id: snapshot.data!.elementAt(index).getId() ??
                                                                                 -1)),
-                                                              ),
+                                                              ).then((_)=>setState(() {
+
+                                                              })),
                                                           icon: const Icon(
                                                             color: Colors.white,
                                                             Icons.edit,
@@ -790,7 +792,9 @@ class _AdminPage extends State<AdminPage> {
                                                                         EditEventPage(
                                                                             id: snapshot.data!.elementAt(index).getId() ??
                                                                                 -1)),
-                                                              ),
+                                                              ).then((_)=>setState(() {
+
+                                                              })),
                                                           icon: const Icon(
                                                             color: Colors.white,
                                                             Icons.edit,

@@ -160,8 +160,13 @@ class _UserHomePage extends State<UserHomePage> {
                                   textStyle:
                                   const TextStyle(fontSize: 20)))),
                       FilledButton(
-                          onPressed: () => {
-                            /*navigator to user tickets page*/
+                          onPressed:  () => {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const UserTicketsPage()),
+                            ),
                           },
                           style: ButtonStyle(
                               backgroundColor:

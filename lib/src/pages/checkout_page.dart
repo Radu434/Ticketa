@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticketa/src/models/event_model.dart';
 import 'package:ticketa/src/models/ticket_model.dart';
 import 'package:ticketa/src/models/transaction_model.dart';
+import 'package:ticketa/src/pages/user_tickets_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   final Event event;
@@ -206,6 +207,12 @@ class _CheckoutPage extends State<CheckoutPage> {
                                         selectedTicketId != null) {
                                       Transaction.create(Transaction(
                                           null, userId, selectedTicketId!, ""));
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                              const UserTicketsPage()),
+                                        );
                                     }
                                   } else {
                                     showDialog(

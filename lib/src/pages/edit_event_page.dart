@@ -435,6 +435,8 @@ class _EditEventPage extends State<EditEventPage> {
                                         ticket.getPrice(), ticket.getType()));
                                   }
                                 });
+
+                                Navigator.pop(context);
                               }
                             },
                             style: ButtonStyle(
@@ -457,7 +459,9 @@ class _EditEventPage extends State<EditEventPage> {
 
                         Expanded(
                             child: ElevatedButton(
-                              onPressed: () =>Navigator.pop(context),
+                              onPressed: () =>{Navigator.pop(context),setState(() {
+
+                              })},
                               style: ButtonStyle(
                                   backgroundColor:
                                   WidgetStateProperty.all(Colors.red),
