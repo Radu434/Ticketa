@@ -1,4 +1,6 @@
 # Ticketa
+![circularlogo](https://github.com/Radu434/Ticketa/assets/47888258/880e0e2f-2f94-45df-be39-a67268b4150e)
+
 A ticket ordering platform. Databases laboratory university project.
 For the backend repository refer th this link
 [PHP Backend Repository](https://github.com/Radu434/ticketa_backend)
